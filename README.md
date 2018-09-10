@@ -10,15 +10,15 @@ There are two methods:
 
 Available variables are listed below, along with default values (see `defaults/main.yml`):
 
-    verify_artifact_tmpdir:                         # working directory
+    verify_artifact_tmpdir: [mandatory]             # working directory
     
 The working directory, where all files are downloaded first, has to be specified.
     
-    verify_artifact_pgp_key:                        # the pgp key
+    verify_artifact_pgp_key: [mandatory]            # the pgp key
 
 The PGP key must be supplied and thus should have been retrieved before executing the role.
     
-    verify_artifact_download_url:                   # the url of the artifact
+    verify_artifact_download_url: [mandatory]       # the url of the artifact
     verify_artifact_download_timeout: 10            # the download timeout
     
 This variable specifies the url of the artifact and the download timeout.
@@ -28,7 +28,7 @@ This variable specifies the url of the artifact and the download timeout.
 This optional variable allows to create a readable path as the destination of the downloaded artifact.
 Indeed, some urls completely obfuscate the real name of the artifact.
 
-    verify_artifact_sums_url:                       # the url of the sum file or the signature file
+    verify_artifact_sums_url:  [mandatory]          # the url of the sum file or the signature file
 
 According to the chosen method, this variable is url of the sum file or the signature file.
     
