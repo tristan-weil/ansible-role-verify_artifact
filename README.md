@@ -1,0 +1,74 @@
+# Ansible Role: verify_artifact
+
+An Ansible Role that helps to verify an artifact for Debian and OpenBSD.
+
+There are two methods:
+    - by retrieving only the PGP signature of the artifact
+    - by retrieving a checksum file
+
+## Role Variables
+
+Available variables are listed below, along with default values (see `defaults/main.yml`):
+
+    verify_artifact_tmpdir:                         # working directory
+    
+The working directory, where all files are downloaded first, has to be specified.
+    
+    verify_artifact_pgp_key:                        # the pgp key
+
+The PGP key must be supplied and thus should have been retrieved before executing the role.
+    
+    verify_artifact_download_url:                   # the url of the artifact
+    verify_artifact_download_timeout: 10            # the download timeout
+    
+This variable specifies the url of the artifact and the download timeout.
+    
+    verify_artifact_artifact_name: ''
+
+This optional variable allows to create a readable path as the destination of the downloaded artifact.
+Indeed, some urls completely obfuscate the real name of the artifact.
+
+    verify_artifact_sums_url:                       # the url of the sum file or the signature file
+
+According to the chosen method, this variable is url of the sum file or the signature file.
+    
+    verify_artifact_signed_sum_file: True
+    verify_artifact_signed_artifact: True
+    
+According to the chosen method, one of this variable must set to `True`.
+    
+    verify_artifact_cksum_algo: sha26
+
+In the case of a checksum file validation, the checksum algo has to be specified.
+
+## Dependencies
+
+None.
+
+## Example Playbook
+
+    - hosts: webservers
+      roles:
+        - role: t18s.fr_verify_artifact
+
+## Todo
+
+None.
+
+## License
+
+```
+Copyright (c) 2018 Tristan Weil <titou@lab.t18s.fr>
+
+Permission to use, copy, modify, and distribute this software for any
+purpose with or without fee is hereby granted, provided that the above
+copyright notice and this permission notice appear in all copies.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
+OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+```

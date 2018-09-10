@@ -1,0 +1,3 @@
+---
+
+verify_artifact_cksum_command: "{{ verify_artifact_cksum_algo }}sum --ignore-missing --quiet --check {{ verify_artifact_tmpdir }}/sum.asc"

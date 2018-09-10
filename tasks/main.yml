@@ -1,0 +1,35 @@
+---
+
+- name: load os specific vars
+  include_vars: "{{ ansible_distribution }}.yml"
+  tags: always
+
+- name: delete tmpdir
+  file:
+    path: "{{ verify_artifact_tmpdir }}"
+    state: absent
+
+- name: create tmpdir
+  file:
+    path: "{{ verify_artifact_tmpdir }}"
+    state: directory
+    owner: root
+    group: root
+    mode: "0700"
+
+- name: upload gpg key
+  copy:
+    content: "{{ verify_artifact_pgp_key }}"
+    dest: "{{ verify_artifact_tmpdir }}/pubkey.gpg"
+
+- name: download signature file
+  get_url:
+    url: "{{ verify_artifact_sums_url }}"
+    dest: "{{ verify_artifact_tmpdir }}/sum.asc"
+    timeout : "{{ verify_artifact_download_timeout }}"
+
+- import_tasks: signed_sum_file.yml
+  when: verify_artifact_signed_sum_file is defined and verify_artifact_signed_sum_file
+
+- import_tasks: signed_artifact.yml
+  when: verify_artifact_signed_artifact is defined and verify_artifact_signed_artifact

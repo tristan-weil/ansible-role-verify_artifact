@@ -1,0 +1,15 @@
+---
+
+- name: download archive
+  get_url:
+    url: "{{ verify_artifact_download_url }}"
+    dest: "{{ verify_artifact_tmpdir }}/{{ verify_artifact_artifact_name }}"
+    timeout : "{{ verify_artifact_download_timeout }}"
+
+- name: check signed artifact
+  shell: |
+    gpg --no-default-keyring --keyring {{ verify_artifact_tmpdir }}/keyring.gpg --trust-model always --import < {{ verify_artifact_tmpdir }}/pubkey.gpg && \
+      gpg --keyring {{ verify_artifact_tmpdir }}/keyring.gpg --verify {{ verify_artifact_tmpdir }}/sum.asc {{ verify_artifact_tmpdir }}/{{ verify_artifact_artifact_name }}
+  register: __verify_artifact_gpg_result
+  failed_when: __verify_artifact_gpg_result.rc != 0
+  changed_when: False
