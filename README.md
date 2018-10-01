@@ -2,9 +2,10 @@
 
 An Ansible Role that helps to verify an artifact for Debian and OpenBSD.
 
-There are two methods:
-    - by retrieving only the PGP signature of the artifact
-    - by retrieving a checksum file
+There are three methods:
+    - by retrieving the signature of the artifact
+    - by retrieving the checksum file with the signature
+    - by retrieving the checksum file and the signature of the checksum file 
 
 ## Role Variables
 
@@ -28,14 +29,12 @@ This variable specifies the url of the artifact and the download timeout.
 This optional variable allows to create a readable path as the destination of the downloaded artifact.
 Indeed, some urls completely obfuscate the real name of the artifact.
 
-    verify_artifact_sums_url:  [mandatory]          # the url of the sum file or the signature file
+    verify_artifact_signature_url:                  # the url of the file containing the signature of the arifact
+                                                    # or the url of the file containing the signature of the sum file
+    verify_artifact_sum_url:                        # the url of the file containing the sum of the file
+    verify_artifact_sum_and_sig_url:                # the url of the file containing the sum and signature of the file
 
 According to the chosen method, this variable is url of the sum file or the signature file.
-    
-    verify_artifact_signed_sum_file: True
-    verify_artifact_signed_artifact: True
-    
-According to the chosen method, one of this variable must set to `True`.
     
     verify_artifact_cksum_algo: sha26
 

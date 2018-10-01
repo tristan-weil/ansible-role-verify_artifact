@@ -1,5 +1,12 @@
 ---
 
+- name: download signed sum file
+  get_url:
+    url: "{{ verify_artifact_sum_and_sig_url }}"
+    dest: "{{ verify_artifact_tmpdir }}/sum.asc"
+    timeout: "{{ verify_artifact_download_timeout }}"
+  when: verify_artifact_sums_signed_url is defined
+
 - name: check signature file
   shell: |
     gpg --no-default-keyring --keyring {{ verify_artifact_tmpdir }}/keyring.gpg --trust-model always --import < {{ verify_artifact_tmpdir }}/pubkey.gpg && \

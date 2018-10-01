@@ -22,14 +22,17 @@
     content: "{{ verify_artifact_pgp_key }}"
     dest: "{{ verify_artifact_tmpdir }}/pubkey.gpg"
 
-- name: download signature file
-  get_url:
-    url: "{{ verify_artifact_sums_url }}"
-    dest: "{{ verify_artifact_tmpdir }}/sum.asc"
-    timeout: "{{ verify_artifact_download_timeout }}"
+- import_tasks: by_sum_and_sig.yml
+  when: >
+    verify_artifact_sum_and_sig_url is defined
+    and verify_artifact_signature_url is not defined
 
-- import_tasks: signed_sum_file.yml
-  when: verify_artifact_signed_sum_file is defined and verify_artifact_signed_sum_file
+- import_tasks: by_sig.yml
+  when: >
+    verify_artifact_signature_url is defined
+    and verify_artifact_sum_and_sig_url is not defined
 
-- import_tasks: signed_artifact.yml
-  when: verify_artifact_signed_artifact is defined and verify_artifact_signed_artifact
+- import_tasks: by_sum_by_sig.yml
+  when: >
+    verify_artifact_sum_url is defined
+    and verify_artifact_signature_url is defined
