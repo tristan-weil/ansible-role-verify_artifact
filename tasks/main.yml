@@ -26,13 +26,16 @@
   when: >
     verify_artifact_sum_and_sig_url is defined
     and verify_artifact_signature_url is not defined
+    and verify_artifact_sum_url is not defined
 
 - import_tasks: by_sig.yml
   when: >
     verify_artifact_signature_url is defined
     and verify_artifact_sum_and_sig_url is not defined
+    and verify_artifact_sum_url is not defined
 
 - import_tasks: by_sum_by_sig.yml
   when: >
     verify_artifact_sum_url is defined
     and verify_artifact_signature_url is defined
+    and verify_artifact_sum_and_sig_url is not defined
