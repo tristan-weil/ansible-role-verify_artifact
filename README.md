@@ -2,10 +2,11 @@
 
 An Ansible Role that helps to verify an artifact for Debian and OpenBSD.
 
-There are three methods:
+There are four methods:
+    - by retrieving the checksum file
     - by retrieving the signature of the artifact
     - by retrieving the checksum file with the signature
-    - by retrieving the checksum file and the signature of the checksum file 
+    - by retrieving the checksum file and the signature of the checksum file
 
 ## Role Variables
 
@@ -49,7 +50,12 @@ None.
     - hosts: webservers
       roles:
         - role: t18s.fr_verify_artifact
-
+          verify_artifact_pgp_key: xxxx
+          verify_artifact_sum_url: https://yyyy/file_SHA256SUMS
+          verify_artifact_signature_url: https://yyyy/file_SHA256SUMS.sig
+          verify_artifact_download_url: https://yyyy/file
+          verify_artifact_cksum_algo: sha256
+          
 ## Todo
 
 None.
