@@ -1,7 +1,13 @@
 ---
 
+##############################################################################
+# Variables
+##############################################################################
 verify_artifact_cksum_command: "{{ __verify_artifact_cksum_command_by_distribution[ ansible_facts['distribution'] ] }}"
 
+##############################################################################
+# Distributions' dictionaries
+##############################################################################
 __verify_artifact_cksum_command_by_distribution:
   Debian: "{{ verify_artifact_cksum_algo }}sum --ignore-missing --quiet --check {{ verify_artifact_tmpdir }}/sum.asc"
   OpenBSD: "cksum -a {{ verify_artifact_cksum_algo }} -C {{ verify_artifact_tmpdir }}/sum.asc"
