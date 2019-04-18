@@ -1,8 +1,5 @@
 ---
 
-- name: load os specific vars
-  include_vars: "{{ ansible_facts['distribution'] }}.yml"
-
 - name: delete tmpdir
   file:
     path: "{{ verify_artifact_tmpdir }}"
