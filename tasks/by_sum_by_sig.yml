@@ -12,6 +12,12 @@
     dest: "{{ verify_artifact_tmpdir }}/sig"
     timeout: "{{ verify_artifact_download_timeout }}"
 
+- name: create gnupg directory
+  file:
+    path: ~/.gnupg
+    mode: "0700"
+    state: directory
+
 - name: check signature file
   shell: |
     gpg --no-tty --no-default-keyring --keyring {{ verify_artifact_tmpdir }}/keyring.gpg --trust-model always --import < {{ verify_artifact_tmpdir }}/pubkey.gpg && \
