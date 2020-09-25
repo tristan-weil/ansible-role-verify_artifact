@@ -1,44 +1,51 @@
 ---
 
-- name: delete tmpdir
+- name: 'delete tmpdir'
   file:
     path: "{{ verify_artifact_tmpdir }}"
-    state: absent
+    state: 'absent'
 
-- name: create tmpdir
+- name: 'create tmpdir'
   file:
     path: "{{ verify_artifact_tmpdir }}"
-    state: directory
-    owner: root
-    group: root
-    mode: "0700"
+    state: 'directory'
+    mode: '0700'
 
-- name: upload gpg key
+- name: 'upload gpg key'
   copy:
     content: "{{ verify_artifact_pgp_key }}"
     dest: "{{ verify_artifact_tmpdir }}/pubkey.gpg"
+    owner: 'root'
+    group: "{{ _verify_artifact_root_group }}"
+    mode: '0600'
   when: verify_artifact_pgp_key is defined
 
-- import_tasks: by_sum_and_sig.yml
+- import_tasks: 'by_sum_and_sig.yml'
   when: >
     verify_artifact_sum_and_sig_url is defined
     and verify_artifact_signature_url is not defined
     and verify_artifact_sum_url is not defined
 
-- import_tasks: by_sum.yml
+- import_tasks: 'by_sum.yml'
   when: >
     verify_artifact_sum_url is defined
     and verify_artifact_signature_url is not defined
     and verify_artifact_sum_and_sig_url is not defined
 
-- import_tasks: by_sig.yml
+- import_tasks: 'by_sig.yml'
   when: >
     verify_artifact_signature_url is defined
     and verify_artifact_sum_and_sig_url is not defined
     and verify_artifact_sum_url is not defined
 
-- import_tasks: by_sum_by_sig.yml
+- import_tasks: 'by_sum_by_sig.yml'
   when: >
     verify_artifact_sum_url is defined
     and verify_artifact_signature_url is defined
     and verify_artifact_sum_and_sig_url is not defined
+
+- name: 'kill unwanted processes'
+  shell: |
+    gpgconf --kill dirmngr
+    gpgconf --kill gpg-agent
+  changed_when: False

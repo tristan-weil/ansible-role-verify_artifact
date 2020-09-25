@@ -3,11 +3,16 @@
 ##############################################################################
 # Variables
 ##############################################################################
-verify_artifact_cksum_command: "{{ __verify_artifact_cksum_command_by_distribution[ ansible_facts['distribution'] ] }}"
+_verify_artifact_cksum_command: "{{ _verify_artifact_cksum_command_by_distribution[ ansible_facts['os_family'] ] }}"
+_verify_artifact_root_group: "{{ _verify_artifact_root_group_by_distribution[ ansible_facts['os_family'] ] }}"
 
 ##############################################################################
 # Distributions' dictionaries
 ##############################################################################
-__verify_artifact_cksum_command_by_distribution:
+_verify_artifact_cksum_command_by_distribution:
   Debian: "{{ verify_artifact_cksum_algo }}sum --ignore-missing --quiet --check {{ verify_artifact_tmpdir }}/sum.asc"
   OpenBSD: "cksum -a {{ verify_artifact_cksum_algo }} -C {{ verify_artifact_tmpdir }}/sum.asc"
+
+_verify_artifact_root_group_by_distribution:
+  Debian: 'root'
+  OpenBSD: 'wheel'

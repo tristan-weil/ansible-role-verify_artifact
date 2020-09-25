@@ -1,0 +1,17 @@
+---
+
+- hosts: all
+  name: 'Verify'
+  become: True
+  gather_facts: True
+
+  tasks:
+    - name: 'Get downloaded file stat'
+      stat:
+        path: "/tmp/consul/consul_1.7.2_{{ ansible_facts['system'] | lower }}_{{ 'amd64' if ansible_facts['architecture'] == 'x86_64' else ansible_facts['architecture'] }}.zip"
+      register: __verify_file
+
+    - name: 'Check downloaded file'
+      assert:
+        that:
+          - __verify_file.stat.exists

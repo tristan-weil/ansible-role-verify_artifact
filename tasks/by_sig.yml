@@ -1,24 +1,24 @@
 ---
 
-- name: download signature file
+- name: 'download signature file'
   get_url:
     url: "{{ verify_artifact_signature_url }}"
     dest: "{{ verify_artifact_tmpdir }}/sig"
     timeout: "{{ verify_artifact_download_timeout }}"
 
-- name: download archive
+- name: 'download archive'
   get_url:
     url: "{{ verify_artifact_download_url }}"
     dest: "{{ verify_artifact_tmpdir }}/{{ verify_artifact_artifact_name }}"
     timeout: "{{ verify_artifact_download_timeout }}"
 
-- name: create gnupg directory
+- name: 'create gnupg directory'
   file:
     path: ~/.gnupg
-    mode: "0700"
-    state: directory
+    mode: '0700'
+    state: 'directory'
 
-- name: check signed artifact
+- name: 'check signed artifact'
   shell: |
     gpg --no-tty --no-default-keyring --keyring {{ verify_artifact_tmpdir }}/keyring.gpg --trust-model always --import < {{ verify_artifact_tmpdir }}/pubkey.gpg && \
       gpg --no-tty --keyring {{ verify_artifact_tmpdir }}/keyring.gpg --verify {{ verify_artifact_tmpdir }}/sig {{ verify_artifact_tmpdir }}/{{ verify_artifact_artifact_name }}
