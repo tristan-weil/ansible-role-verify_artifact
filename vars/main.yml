@@ -9,10 +9,10 @@ _verify_artifact_root_group: "{{ _verify_artifact_root_group_by_os_family[ ansib
 ##############################################################################
 # Distributions' dictionaries
 ##############################################################################
-_verify_artifact_cksum_command_by_distribution:
+_verify_artifact_cksum_command_by_os_family:
   Debian: "{{ verify_artifact_cksum_algo }}sum --ignore-missing --quiet --check {{ verify_artifact_tmpdir }}/sum.asc"
   OpenBSD: "cksum -a {{ verify_artifact_cksum_algo }} -C {{ verify_artifact_tmpdir }}/sum.asc"
 
-_verify_artifact_root_group_by_distribution:
+_verify_artifact_root_group_by_os_family:
   Debian: 'root'
   OpenBSD: 'wheel'
