@@ -3,8 +3,8 @@
 ##############################################################################
 # Variables
 ##############################################################################
-_verify_artifact_cksum_command: "{{ _verify_artifact_cksum_command_by_distribution[ ansible_facts['os_family'] ] }}"
-_verify_artifact_root_group: "{{ _verify_artifact_root_group_by_distribution[ ansible_facts['os_family'] ] }}"
+_verify_artifact_cksum_command: "{{ _verify_artifact_cksum_command_by_os_family[ ansible_facts['os_family'] ] }}"
+_verify_artifact_root_group: "{{ _verify_artifact_root_group_by_os_family[ ansible_facts['os_family'] ] }}"
 
 ##############################################################################
 # Distributions' dictionaries

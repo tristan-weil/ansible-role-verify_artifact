@@ -1,6 +1,6 @@
 # Ansible Role: verify_artifact
 
-An Ansible Role that helps to verify an artifact for Debian and OpenBSD.
+An Ansible Role that helps to verify an artifact.
 
 There are four methods:
     - by retrieving the checksum file
